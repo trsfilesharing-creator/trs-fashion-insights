@@ -102,19 +102,18 @@ whatsappClient.on("disconnected", (reason) => {
 
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: [
+      "http://localhost:8080",
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://trs-fashion-backend.onrender.com",
+      /\.vercel\.app$/ // This automatically allows any preview or production URL from Vercel
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
-  }),
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"]
+  })
 );
-
 // =====================================================
 // BODY PARSER
 // =====================================================
@@ -155,7 +154,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://trs-fashion-backend.onrender.com/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       console.log("Google login successful:", profile.displayName);
